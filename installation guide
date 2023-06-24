@@ -1,0 +1,54 @@
+﻿1. Download derby 10.14.2.bin file 
+2. Rename it by removing the bin
+3. Download hive 3.1.2
+4. Make these as the environment variables
+5. HIVE_HOME: “E:\hadoop-env\apache-hive-3.1.2\” “ C:\apache-hive”
+6. DERBY_HOME: “E:\hadoop-env\db-derby-10.14.2.0\” C:\db-derby”
+7. HIVE_LIB: “%HIVE_HOME%\lib” 
+8. HIVE_BIN: “%HIVE_HOME%\bin”
+9. HADOOP_USER_CLASSPATH_FIRST: “true”
+10. HADOOP_HOME “C:\HADOOP”
+11. JAVA_HOME “C:\Java\jdk-1.8\bin”
+12.  FOR PATHS
+13. C:\Java\jdk-1.8\bin
+14. C:\hadoop\bin
+15. C:\hadoop\sbin
+16. %HIVE_BIN%
+17. %DERBY_HOME%\bin
+18.   19. Copy all db-derby\lib files and paste in hive\lib
+20. Create new hive-site.xml file in hive\conf
+21. <?xml version="1.0"?>
+22. <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+23. <configuration><property> <name>javax.jdo.option.ConnectionURL</name> 
+24. <value>jdbc:derby://localhost:1527/metastore_db;create=true</value> 
+25. <description>JDBC connect string for a JDBC metastore</description>
+26. </property><property> 
+27. <name>javax.jdo.option.ConnectionDriverName</name> 
+28. <value>org.apache.derby.jdbc.ClientDriver</value> 
+29. <description>Driver class name for a JDBC metastore</description>
+30. </property>
+31. <property> 
+32. <name>hive.server2.enable.doAs</name> 
+33. <description>Enable user impersonation for HiveServer2</description>
+34. <value>true</value>
+35. </property>
+36. <property>
+37. <name>hive.server2.authentication</name> 
+38. <value>NONE</value>
+39. <description> Client authentication types. NONE: no authentication check LDAP: LDAP/AD based authentication KERBEROS: Kerberos/GSSAPI authentication CUSTOM: Custom authentication provider (Use with property hive.server2.custom.authentication.class) </description>
+40. </property>
+41. <property>
+42. <name>datanucleus.autoCreateTables</name>
+43. <value>True</value>
+44. </property>
+45. </configuration>
+46.  Now replace hive\bin with new bin 
+47. Also replace guava-19.jar file with new guava-20.jar file in hive\lib
+48. Open cmd and navigate to d-dreby\bin
+49. Write this command StartNetworkServer -h 0.0.0.0
+50.  Open new cmd and write hive --service schematool -dbType derby -initSchema
+51. Open new cmd and write hive --service hiveserver2 start
+52. Open new cmd and type hive
+53. Hadoop fs -ls \
+54. Hadoop fs -chmod -r/user
+55. grant select on table default.hivesmoke22074 to user user1;
